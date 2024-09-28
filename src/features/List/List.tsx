@@ -5,9 +5,9 @@ import { ListItem } from "./ListItem";
 
 const Container = styled.div`
    width: 90%;
-   border: 2px solid black;
+   background-color: var(--bg-light-2);
+   border: 1px solid var(--text-dark-1);
    height: 40vh;
-   margin-top: 1em;
    display: flex;
    align-items: flex-end;
    justify-content: center;
@@ -17,16 +17,30 @@ export const List = () => {
    const context = useAppContext();
    const { updateIteratingIndex } = useAppContextActions();
    const { list, listState } = context;
+   const timerRef = React.useRef<NodeJS.Timeout | undefined>();
 
    React.useEffect(() => {
-      setTimeout(() => {
+      if (timerRef.current) {
+         clearTimeout(timerRef.current);
+         timerRef.current = undefined;
+      }
+      if (!listState.iterating) {
+         return;
+      }
+
+      timerRef.current = setTimeout(() => {
          const newIndex =
             listState.iteratingIndex === list.length
                ? 0
                : listState.iteratingIndex + 1;
          updateIteratingIndex(newIndex);
       }, 100);
-   }, [list, listState.iteratingIndex, updateIteratingIndex]);
+   }, [
+      list,
+      listState.iterating,
+      listState.iteratingIndex,
+      updateIteratingIndex,
+   ]);
 
    return (
       <Container>

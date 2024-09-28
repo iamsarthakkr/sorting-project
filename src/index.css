@@ -1,4 +1,8 @@
 :root {
+   --bg-light-1: #ececec;
+   --bg-light-2: #e0e0e0;
+   --text-dark-1: #142d4c;
+
    --cell-color: #e8e869;
    --cell-color-iterating: #c13c3c;
 }
@@ -12,6 +16,8 @@
 
 body {
    font-family: "Montserrat", sans-serif;
+   background-color: var(--bg-light-1);
+   color: var(--text-dark-1);
 }
 
 code {
