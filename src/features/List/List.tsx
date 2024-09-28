@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { randomArray } from "../../Utils";
+import { useAppContext } from "../App/useAppContext";
+import { ListItem } from "./ListItem";
 
 const Container = styled.div`
    width: 90%;
@@ -12,37 +13,14 @@ const Container = styled.div`
    justify-content: center;
 `;
 
-const ListElement = styled.div<{
-   height: number;
-   $leftBorder: boolean;
-   $rightBorder: boolean;
-}>`
-   width: 15px;
-   height: ${(props) => `${props.height}px`};
-   border-top: 1px solid black;
-   border-left: ${(props) => (props.$leftBorder ? "1px solid black" : 0)};
-   border-right: ${(props) => (props.$rightBorder ? "1px solid black" : 0)};
-   background-color: #e8e869;
-`;
-
 export const List = () => {
-   const [values, setValues] = React.useState<number[]>(randomArray(40));
-   console.log(values);
+   const context = useAppContext();
+   const { list } = context;
 
    return (
       <Container>
-         {values.map((val, index) => {
-            const hasLeft = index === 0 || values[index] >= values[index - 1];
-            const hasRight =
-               index === values.length - 1 || values[index] > values[index + 1];
-            return (
-               <ListElement
-                  key={index}
-                  height={val}
-                  $leftBorder={hasLeft}
-                  $rightBorder={hasRight}
-               />
-            );
+         {list.map((cell) => {
+            return <ListItem key={cell.index} element={cell} />;
          })}
       </Container>
    );
