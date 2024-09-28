@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { List } from "../List";
 import { FlexCenter } from "../../components";
+import { AppContextProvider } from "./AppContextProvider";
 
 const AppContainer = styled(FlexCenter)`
    min-height: 100vh;
@@ -12,8 +13,10 @@ const AppContainer = styled(FlexCenter)`
 
 export const App = () => {
    return (
-      <AppContainer>
-         <List />
-      </AppContainer>
+      <AppContextProvider>
+         <AppContainer>
+            <List />
+         </AppContainer>
+      </AppContextProvider>
    );
 };
