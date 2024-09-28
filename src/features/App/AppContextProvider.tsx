@@ -1,7 +1,7 @@
 import React from "react";
-import { AppContext, AppContextActions } from "./context";
+import { AppContext, AppContextActions, IListState } from "./context";
 import { IAppContext, IAppContextActions } from "./context";
-import { IList } from "../../types";
+import { Callback1, IList } from "../../types";
 import { initList } from "../../Utils";
 
 interface IProps {
@@ -10,15 +10,30 @@ interface IProps {
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
    const [list, setList] = React.useState<IList>(initList(40));
+   const [listState, setListState] = React.useState<IListState>({
+      iteratingIndex: -1,
+   });
+
+   const updateIteratingIndex: Callback1<number> = (index) => {
+      setListState((prev) => {
+         return {
+            ...prev,
+            iteratingIndex: index,
+         };
+      });
+   };
 
    const context: IAppContext = React.useMemo(() => {
       return {
          list,
+         listState,
       };
-   }, [list]);
+   }, [list, listState]);
 
    const contextActions: IAppContextActions = React.useMemo(() => {
-      return {};
+      return {
+         updateIteratingIndex,
+      };
    }, []);
 
    return (

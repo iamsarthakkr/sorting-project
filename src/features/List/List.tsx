@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useAppContext } from "../App/useAppContext";
+import { useAppContext, useAppContextActions } from "../App/useAppContext";
 import { ListItem } from "./ListItem";
 
 const Container = styled.div`
@@ -15,7 +15,18 @@ const Container = styled.div`
 
 export const List = () => {
    const context = useAppContext();
-   const { list } = context;
+   const { updateIteratingIndex } = useAppContextActions();
+   const { list, listState } = context;
+
+   React.useEffect(() => {
+      setTimeout(() => {
+         const newIndex =
+            listState.iteratingIndex === list.length
+               ? 0
+               : listState.iteratingIndex + 1;
+         updateIteratingIndex(newIndex);
+      }, 100);
+   }, [list, listState.iteratingIndex, updateIteratingIndex]);
 
    return (
       <Container>
