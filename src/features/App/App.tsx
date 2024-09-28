@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { List } from "../List";
-import { FlexCenter } from "../components";
+import { FlexCenter } from "../../components";
 
 const AppContainer = styled(FlexCenter)`
    min-height: 100vh;

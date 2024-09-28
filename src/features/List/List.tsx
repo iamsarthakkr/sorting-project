@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { randomArray } from "../Utils";
+import { randomArray } from "../../Utils";
 
 const Container = styled.div`
    width: 90%;
