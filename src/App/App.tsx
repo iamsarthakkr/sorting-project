@@ -1,12 +1,19 @@
 import React from "react";
 import styled from "styled-components";
-import { Center } from "../components";
+import { List } from "../List";
+import { FlexCenter } from "../components";
 
-const AppContainer = styled(Center)`
+const AppContainer = styled(FlexCenter)`
+   min-height: 100vh;
+   min-width: 100vw;
    font-weight: 500;
    font-size: 1.4em;
 `;
 
 export const App = () => {
-   return <AppContainer>Hello World</AppContainer>;
+   return (
+      <AppContainer>
+         <List />
+      </AppContainer>
+   );
 };
