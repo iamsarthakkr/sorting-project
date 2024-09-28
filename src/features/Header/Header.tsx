@@ -15,13 +15,17 @@ const Container = styled(Flex)`
 
 export const Header = () => {
    const { listState } = useAppContext();
-   const { toggleIteratingState } = useAppContextActions();
+   const { toggleIteratingState, resetListState } = useAppContextActions();
+
    return (
       <Container>
          <div>Left</div>
          <div>
             <Button size="large" onClick={toggleIteratingState} color="teal">
                {listState.iterating ? "Pause" : "Start"}
+            </Button>
+            <Button size="large" onClick={resetListState} color="teal">
+               Reset
             </Button>
          </div>
       </Container>

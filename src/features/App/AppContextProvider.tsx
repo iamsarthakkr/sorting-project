@@ -36,6 +36,13 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       });
    }, [setListState]);
 
+   const resetListState: Callback = React.useCallback(() => {
+      setListState({
+         iterating: false,
+         iteratingIndex: -1,
+      });
+   }, [setListState]);
+
    const context: IAppContext = React.useMemo(() => {
       return {
          list,
@@ -47,8 +54,9 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       return {
          updateIteratingIndex,
          toggleIteratingState,
+         resetListState,
       };
-   }, [updateIteratingIndex, toggleIteratingState]);
+   }, [updateIteratingIndex, toggleIteratingState, resetListState]);
 
    return (
       <AppContext.Provider value={context}>

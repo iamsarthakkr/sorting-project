@@ -14,6 +14,7 @@ export type IAppContext = {
 export type IAppContextActions = {
    updateIteratingIndex: Action1<number>;
    toggleIteratingState: Action;
+   resetListState: Action;
 };
 
 export const AppContext = React.createContext<IAppContext>(
