@@ -7,7 +7,7 @@ const Item = styled.div<{
    $leftBorder: boolean;
    $rightBorder: boolean;
 }>`
-   width: 10px;
+   width: 5px;
    height: ${(props) => `${props.height}px`};
    border-top: 1px solid black;
    border-left: ${(props) => (props.$leftBorder ? "1px solid black" : 0)};

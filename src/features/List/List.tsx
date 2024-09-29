@@ -8,6 +8,7 @@ const Container = styled.div`
    background-color: var(--bg-light-2);
    border: 1px solid var(--text-dark-1);
    height: 40vh;
+   box-sizing: content-box;
    display: flex;
    align-items: flex-end;
    justify-content: center;
