@@ -1,5 +1,5 @@
 import React from "react";
-import { Action, Action1, IList } from "../../types";
+import { Action, Action1, IList, Algorithm } from "../../types";
 
 export type IListState = {
    iteratingIndex: number;
@@ -9,12 +9,14 @@ export type IListState = {
 export type IAppContext = {
    list: IList;
    listState: IListState;
+   algorithm: Algorithm;
 };
 
 export type IAppContextActions = {
    updateIteratingIndex: Action1<number>;
    toggleIteratingState: Action;
    resetListState: Action;
+   setAlgorithm: Action1<Algorithm>;
 };
 
 export const AppContext = React.createContext<IAppContext>(

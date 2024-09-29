@@ -1,7 +1,7 @@
 import React from "react";
 import { AppContext, AppContextActions, IListState } from "./context";
 import { IAppContext, IAppContextActions } from "./context";
-import { Callback, Callback1, IList } from "../../types";
+import { Callback, Callback1, IList, Algorithm } from "../../types";
 import { initList } from "../../Utils";
 
 interface IProps {
@@ -14,6 +14,9 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       iteratingIndex: -1,
       iterating: false,
    });
+   const [algorithm, setAlgorithm] = React.useState<Algorithm>(
+      Algorithm.ITERATION
+   );
 
    const updateIteratingIndex: Callback1<number> = React.useCallback(
       (index) => {
@@ -47,16 +50,23 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       return {
          list,
          listState,
+         algorithm,
       };
-   }, [list, listState]);
+   }, [list, listState, algorithm]);
 
    const contextActions: IAppContextActions = React.useMemo(() => {
       return {
          updateIteratingIndex,
          toggleIteratingState,
          resetListState,
+         setAlgorithm,
       };
-   }, [updateIteratingIndex, toggleIteratingState, resetListState]);
+   }, [
+      updateIteratingIndex,
+      toggleIteratingState,
+      resetListState,
+      setAlgorithm,
+   ]);
 
    return (
       <AppContext.Provider value={context}>
