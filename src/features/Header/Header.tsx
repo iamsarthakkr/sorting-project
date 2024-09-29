@@ -6,6 +6,7 @@ import { useAppContext, useAppContextActions } from "../App/useAppContext";
 import { Select } from "../../components/Select";
 import { Algorithms } from "../../Constants";
 import { Algorithm } from "../../types";
+import { IteratingState } from "../App/context";
 
 const Container = styled(Flex)`
    width: 90%;
@@ -23,7 +24,7 @@ const SelectCont = styled.div`
 
 export const Header = () => {
    const { listState, algorithm } = useAppContext();
-   const { toggleIteratingState, resetListState, setAlgorithm } =
+   const { updateIteratingState, resetListState, setAlgorithm } =
       useAppContextActions();
 
    const updateAlgo = React.useCallback(
@@ -32,6 +33,19 @@ export const Header = () => {
       },
       [setAlgorithm]
    );
+
+   const toggleIteratingState = React.useCallback(() => {
+      if (listState.iterating === IteratingState.NONE) {
+         updateIteratingState(IteratingState.ITERATING);
+      }
+      if (listState.iterating === IteratingState.ITERATING) {
+         updateIteratingState(IteratingState.NONE);
+      }
+   }, [listState.iterating, updateIteratingState]);
+
+   const disabled = listState.iterating === IteratingState.DONE;
+   const toggleText =
+      listState.iterating === IteratingState.ITERATING ? "Pause" : "Start";
 
    return (
       <Container>
@@ -43,8 +57,13 @@ export const Header = () => {
             />
          </SelectCont>
          <div>
-            <Button size="large" onClick={toggleIteratingState} color="teal">
-               {listState.iterating ? "Pause" : "Start"}
+            <Button
+               size="large"
+               onClick={toggleIteratingState}
+               color="teal"
+               disabled={disabled}
+            >
+               {toggleText}
             </Button>
             <Button size="large" onClick={resetListState} color="teal">
                Reset

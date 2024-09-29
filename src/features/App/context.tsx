@@ -1,9 +1,17 @@
 import React from "react";
 import { Action, Action1, IList, Algorithm } from "../../types";
 
+export enum IteratingState {
+   NONE,
+   ITERATING,
+   DONE,
+}
+
 export type IListState = {
    iteratingIndex: number;
-   iterating: boolean;
+   iterating: IteratingState;
+   startIndex: number;
+   endIndex: number;
 };
 
 export type IAppContext = {
@@ -14,9 +22,11 @@ export type IAppContext = {
 
 export type IAppContextActions = {
    updateIteratingIndex: Action1<number>;
-   toggleIteratingState: Action;
+   updateIteratingState: Action1<IteratingState>;
    resetListState: Action;
    setAlgorithm: Action1<Algorithm>;
+   updateStartIndex: Action1<number>;
+   updateEndIndex: Action1<number>;
 };
 
 export const AppContext = React.createContext<IAppContext>(
