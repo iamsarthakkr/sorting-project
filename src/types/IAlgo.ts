@@ -1,4 +1,4 @@
 export enum Algorithm {
    ITERATION = "iteration",
-   SEARCH = "search",
+   BUBBLE_SORT = "bubble_sort",
 }

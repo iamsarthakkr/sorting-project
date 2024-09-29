@@ -6,7 +6,7 @@ import {
    IteratingState,
 } from "./context";
 import { IAppContext, IAppContextActions } from "./context";
-import { Callback, Callback1, IList, Algorithm } from "../../types";
+import { Callback, Callback1, IList, Algorithm, Callback2 } from "../../types";
 import { initList } from "../../Utils";
 
 interface IProps {
@@ -23,7 +23,7 @@ const getInitState = (list: IList): IListState => {
 };
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
-   const [list] = React.useState<IList>(initList(100));
+   const [list, setList] = React.useState<IList>(initList(70));
    const [listState, setListState] = React.useState<IListState>(
       getInitState(list)
    );
@@ -83,6 +83,19 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       [setListState]
    );
 
+   const swapElements: Callback2<number, number> = React.useCallback(
+      (i1, i2) => {
+         setList((prev) => {
+            const newList = prev.map((el) => ({ ...el }));
+            const t = newList[i1];
+            newList[i1] = newList[i2];
+            newList[i2] = t;
+            return newList.map((el, idx) => ({ ...el, index: idx }));
+         });
+      },
+      []
+   );
+
    const context: IAppContext = React.useMemo(() => {
       return {
          list,
@@ -99,6 +112,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
          setAlgorithm,
          updateStartIndex,
          updateEndIndex,
+         swapElements,
       };
    }, [
       updateIteratingIndex,
@@ -107,6 +121,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       setAlgorithm,
       updateStartIndex,
       updateEndIndex,
+      swapElements,
    ]);
 
    return (

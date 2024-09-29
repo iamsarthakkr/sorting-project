@@ -1,5 +1,5 @@
 import React from "react";
-import { Action, Action1, IList, Algorithm } from "../../types";
+import { Action, Action1, IList, Algorithm, Action2 } from "../../types";
 
 export enum IteratingState {
    NONE,
@@ -27,6 +27,7 @@ export type IAppContextActions = {
    setAlgorithm: Action1<Algorithm>;
    updateStartIndex: Action1<number>;
    updateEndIndex: Action1<number>;
+   swapElements: Action2<number, number>;
 };
 
 export const AppContext = React.createContext<IAppContext>(

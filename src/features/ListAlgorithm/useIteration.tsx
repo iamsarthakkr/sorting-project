@@ -17,7 +17,7 @@ export const useIteration = () => {
       if (listState.iterating !== IteratingState.ITERATING) {
          return;
       }
-      if (listState.iteratingIndex === list.length) {
+      if (listState.iteratingIndex === listState.endIndex) {
          updateIteratingState(IteratingState.DONE);
       }
 
@@ -28,8 +28,7 @@ export const useIteration = () => {
       }, 100);
    }, [
       list,
-      listState.iterating,
-      listState.iteratingIndex,
+      listState,
       updateIteratingIndex,
       updateIteratingState,
       updateStartIndex,

@@ -24,8 +24,12 @@ const SelectCont = styled.div`
 
 export const Header = () => {
    const { listState, algorithm } = useAppContext();
-   const { updateIteratingState, resetListState, setAlgorithm } =
-      useAppContextActions();
+   const {
+      updateIteratingState,
+      resetListState,
+      setAlgorithm,
+      updateIteratingIndex,
+   } = useAppContextActions();
 
    const updateAlgo = React.useCallback(
       (val: string) => {
@@ -37,11 +41,12 @@ export const Header = () => {
    const toggleIteratingState = React.useCallback(() => {
       if (listState.iterating === IteratingState.NONE) {
          updateIteratingState(IteratingState.ITERATING);
+         updateIteratingIndex(listState.startIndex);
       }
       if (listState.iterating === IteratingState.ITERATING) {
          updateIteratingState(IteratingState.NONE);
       }
-   }, [listState.iterating, updateIteratingState]);
+   }, [listState, updateIteratingState, updateIteratingIndex]);
 
    const disabled = listState.iterating === IteratingState.DONE;
    const toggleText =
