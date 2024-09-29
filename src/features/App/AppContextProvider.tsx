@@ -23,7 +23,7 @@ const getInitState = (list: IList): IListState => {
 };
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
-   const [list, setList] = React.useState<IList>(initList(100));
+   const [list] = React.useState<IList>(initList(100));
    const [listState, setListState] = React.useState<IListState>(
       getInitState(list)
    );
