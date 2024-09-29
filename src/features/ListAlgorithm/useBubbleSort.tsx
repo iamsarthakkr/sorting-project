@@ -5,7 +5,7 @@ import { IteratingState } from "../App/context";
 export const useBubbleSort = () => {
    const context = useAppContext();
    const actions = useAppContextActions();
-   const { list, listState } = context;
+   const { list, listState, algorithmSpeed } = context;
    const timerRef = React.useRef<NodeJS.Timeout | undefined>();
 
    React.useEffect(() => {
@@ -38,6 +38,6 @@ export const useBubbleSort = () => {
          }
          const newIndex = listState.iteratingIndex + 1;
          actions.updateIteratingIndex(newIndex);
-      }, 10);
-   }, [list, listState, actions]);
+      }, algorithmSpeed);
+   }, [list, listState, actions, algorithmSpeed]);
 };

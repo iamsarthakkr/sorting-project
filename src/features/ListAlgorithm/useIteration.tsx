@@ -6,7 +6,7 @@ export const useIteration = () => {
    const context = useAppContext();
    const { updateIteratingIndex, updateIteratingState, updateStartIndex } =
       useAppContextActions();
-   const { list, listState } = context;
+   const { list, listState, algorithmSpeed } = context;
    const timerRef = React.useRef<NodeJS.Timeout | undefined>();
 
    React.useEffect(() => {
@@ -25,12 +25,13 @@ export const useIteration = () => {
          const newIndex = listState.iteratingIndex + 1;
          updateIteratingIndex(newIndex);
          updateStartIndex(newIndex);
-      }, 100);
+      }, algorithmSpeed);
    }, [
       list,
       listState,
       updateIteratingIndex,
       updateIteratingState,
       updateStartIndex,
+      algorithmSpeed,
    ]);
 };

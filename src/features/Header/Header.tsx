@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import { Button } from "semantic-ui-react";
-import { Flex } from "../../components";
+import { Button, Slider } from "@mui/material";
+import { Center, Flex } from "../../components";
 import { useAppContext, useAppContextActions } from "../App/useAppContext";
 import { Select } from "../../components/Select";
 import { Algorithms } from "../../Constants";
@@ -9,7 +9,7 @@ import { Algorithm } from "../../types";
 import { IteratingState } from "../App/context";
 
 const Container = styled(Flex)`
-   width: 90%;
+   width: 100%;
    height: 70px;
    margin-top: 10px;
    align-items: center;
@@ -22,6 +22,15 @@ const SelectCont = styled.div`
    width: 150px;
 `;
 
+const SliderCont = styled.div`
+   width: 120px;
+`;
+
+const ButtonCont = styled.div`
+   display: flex;
+   gap: 5px;
+`;
+
 export const Header = () => {
    const { listState, algorithm } = useAppContext();
    const {
@@ -29,6 +38,7 @@ export const Header = () => {
       resetListState,
       setAlgorithm,
       updateIteratingIndex,
+      setAlgorithmSpeed,
    } = useAppContextActions();
 
    const updateAlgo = React.useCallback(
@@ -36,6 +46,14 @@ export const Header = () => {
          setAlgorithm(val as Algorithm);
       },
       [setAlgorithm]
+   );
+
+   const onChangeSpeed = React.useCallback(
+      (_e: Event, v: number | number[]) => {
+         const speed: number = v as number;
+         setAlgorithmSpeed(speed);
+      },
+      [setAlgorithmSpeed]
    );
 
    const toggleIteratingState = React.useCallback(() => {
@@ -61,19 +79,38 @@ export const Header = () => {
                onChange={updateAlgo}
             />
          </SelectCont>
-         <div>
+         <SliderCont>
+            <Center>Speed</Center>
+            <Slider
+               size="medium"
+               defaultValue={0}
+               onChange={onChangeSpeed}
+               valueLabelDisplay="auto"
+               step={20}
+               marks
+               min={0}
+               max={200}
+            />
+         </SliderCont>
+         <ButtonCont>
             <Button
-               size="large"
+               size="medium"
                onClick={toggleIteratingState}
-               color="teal"
+               variant="contained"
                disabled={disabled}
+               color="info"
             >
                {toggleText}
             </Button>
-            <Button size="large" onClick={resetListState} color="teal">
+            <Button
+               size="medium"
+               onClick={resetListState}
+               variant="contained"
+               color="info"
+            >
                Reset
             </Button>
-         </div>
+         </ButtonCont>
       </Container>
    );
 };

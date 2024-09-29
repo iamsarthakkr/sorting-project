@@ -18,6 +18,7 @@ export type IAppContext = {
    list: IList;
    listState: IListState;
    algorithm: Algorithm;
+   algorithmSpeed: number;
 };
 
 export type IAppContextActions = {
@@ -28,6 +29,7 @@ export type IAppContextActions = {
    updateStartIndex: Action1<number>;
    updateEndIndex: Action1<number>;
    swapElements: Action2<number, number>;
+   setAlgorithmSpeed: Action1<number>;
 };
 
 export const AppContext = React.createContext<IAppContext>(

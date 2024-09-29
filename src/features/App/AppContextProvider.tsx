@@ -30,6 +30,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
    const [algorithm, setAlgorithm] = React.useState<Algorithm>(
       Algorithm.ITERATION
    );
+   const [algorithmSpeed, setAlgorithmSpeed] = React.useState(0);
 
    const updateIteratingIndex: Callback1<number> = React.useCallback(
       (index) => {
@@ -101,8 +102,9 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
          list,
          listState,
          algorithm,
+         algorithmSpeed,
       };
-   }, [list, listState, algorithm]);
+   }, [list, listState, algorithm, algorithmSpeed]);
 
    const contextActions: IAppContextActions = React.useMemo(() => {
       return {
@@ -113,6 +115,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
          updateStartIndex,
          updateEndIndex,
          swapElements,
+         setAlgorithmSpeed,
       };
    }, [
       updateIteratingIndex,
@@ -122,6 +125,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       updateStartIndex,
       updateEndIndex,
       swapElements,
+      setAlgorithmSpeed,
    ]);
 
    return (

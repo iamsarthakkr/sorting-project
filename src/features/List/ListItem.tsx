@@ -7,11 +7,12 @@ const Item = styled.div<{
    $leftBorder: boolean;
    $rightBorder: boolean;
 }>`
-   width: 5px;
+   min-width: 10px;
+   width: 10px;
    height: ${(props) => `${props.height}px`};
    border-top: 1px solid black;
-   border-left: ${(props) => (props.$leftBorder ? "1px solid black" : 0)};
-   border-right: ${(props) => (props.$rightBorder ? "1px solid black" : 0)};
+   border-left: ${(props) => (props.$leftBorder ? "0.5px solid black" : 0)};
+   border-right: ${(props) => (props.$rightBorder ? "0.5px solid black" : 0)};
 
    &.cell-visited {
       background-color: var(--cell-color-visited);
