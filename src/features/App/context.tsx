@@ -24,7 +24,7 @@ export type IAppContext = {
 export type IAppContextActions = {
    updateIteratingIndex: Action1<number>;
    updateIteratingState: Action1<IteratingState>;
-   resetListState: Action;
+   reset: Action;
    setAlgorithm: Action1<Algorithm>;
    updateStartIndex: Action1<number>;
    updateEndIndex: Action1<number>;

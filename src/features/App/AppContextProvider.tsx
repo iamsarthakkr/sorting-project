@@ -22,8 +22,10 @@ const getInitState = (list: IList): IListState => {
    };
 };
 
+const NUM_ELEMENTS = 70;
+
 export const AppContextProvider: React.FC<IProps> = (props) => {
-   const [list, setList] = React.useState<IList>(initList(70));
+   const [list, setList] = React.useState<IList>(initList(NUM_ELEMENTS));
    const [listState, setListState] = React.useState<IListState>(
       getInitState(list)
    );
@@ -56,9 +58,11 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       [setListState]
    );
 
-   const resetListState: Callback = React.useCallback(() => {
-      setListState(getInitState(list));
-   }, [list, setListState]);
+   const reset: Callback = React.useCallback(() => {
+      const newList = initList(NUM_ELEMENTS);
+      setList(newList);
+      setListState(getInitState(newList));
+   }, [setListState, setList]);
 
    const updateStartIndex: Callback1<number> = React.useCallback(
       (index) => {
@@ -110,7 +114,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       return {
          updateIteratingIndex,
          updateIteratingState,
-         resetListState,
+         reset,
          setAlgorithm,
          updateStartIndex,
          updateEndIndex,
@@ -120,7 +124,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
    }, [
       updateIteratingIndex,
       updateIteratingState,
-      resetListState,
+      reset,
       setAlgorithm,
       updateStartIndex,
       updateEndIndex,

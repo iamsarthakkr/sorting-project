@@ -35,7 +35,7 @@ export const Header = () => {
    const { listState, algorithm } = useAppContext();
    const {
       updateIteratingState,
-      resetListState,
+      reset,
       setAlgorithm,
       updateIteratingIndex,
       setAlgorithmSpeed,
@@ -104,7 +104,7 @@ export const Header = () => {
             </Button>
             <Button
                size="medium"
-               onClick={resetListState}
+               onClick={reset}
                variant="contained"
                color="info"
             >
