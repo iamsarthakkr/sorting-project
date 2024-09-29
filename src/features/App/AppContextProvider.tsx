@@ -30,7 +30,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       getInitState(list)
    );
    const [algorithm, setAlgorithm] = React.useState<Algorithm>(
-      Algorithm.ITERATION
+      Algorithm.BUBBLE_SORT
    );
    const [algorithmSpeed, setAlgorithmSpeed] = React.useState(0);
 
