@@ -8,7 +8,7 @@ export const bubbleSort = (list: IList): IAlgorithmPayload[] => {
    });
 
    const operations: IAlgorithmPayload[] = [];
-   for (let end = toSort.length; end > 0; end--) {
+   for (let end = toSort.length; end >= 0; end--) {
       // update iterating range
       operations.push({ type: PayloadType.UPDATE_RANGE, value: [0, end] });
       for (let iteratingIndex = 0; iteratingIndex < end; iteratingIndex++) {
@@ -37,5 +37,6 @@ export const bubbleSort = (list: IList): IAlgorithmPayload[] => {
          }
       }
    }
+   operations.push({ type: PayloadType.UPDATE_ITERATION, value: [-1] });
    return operations;
 };

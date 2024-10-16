@@ -15,7 +15,7 @@ interface IProps {
    children: React.ReactElement;
 }
 
-const getInitAlgoState = (list: IList): IAlgorithmState => {
+export const getInitAlgoState = (list: IList): IAlgorithmState => {
    return {
       iteratingIndices: [],
       iteratingRange: [0, list.length],
@@ -23,7 +23,7 @@ const getInitAlgoState = (list: IList): IAlgorithmState => {
    };
 };
 
-const NUM_ELEMENTS = 20;
+const NUM_ELEMENTS = 3;
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
    const [list, setList] = React.useState<IList>(initList(NUM_ELEMENTS));

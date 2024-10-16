@@ -57,6 +57,7 @@ export const AlgorithmController = () => {
       algorithmIndex,
       updateAlgorithmIndex,
       updateIteratingState,
+      updateAlgorithmState,
    ]);
 
    // algorithm visualization
