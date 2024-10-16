@@ -23,7 +23,7 @@ export const getInitAlgoState = (list: IList): IAlgorithmState => {
    };
 };
 
-const NUM_ELEMENTS = 3;
+const NUM_ELEMENTS = 10;
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
    const [list, setList] = React.useState<IList>(initList(NUM_ELEMENTS));

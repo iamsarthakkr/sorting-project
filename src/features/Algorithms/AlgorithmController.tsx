@@ -77,6 +77,7 @@ export const AlgorithmController = () => {
          switch (type) {
             case PayloadType.UPDATE_RANGE: {
                updateAlgorithmState("iteratingRange", value);
+               updateAlgorithmState("iteratingIndices", []);
                updateAlgorithmState("swappingIndices", []);
                break;
             }
@@ -88,6 +89,7 @@ export const AlgorithmController = () => {
             case PayloadType.UPDATE_SWAP: {
                // swap
                updateAlgorithmState("swappingIndices", value);
+               updateAlgorithmState("iteratingIndices", []);
                swapElements(value[0], value[1]);
                break;
             }
