@@ -1,35 +1,52 @@
 import React from "react";
-import { Action, Action1, IList, Algorithm, Action2 } from "../../types";
+import {
+   Action,
+   Action1,
+   IList,
+   Algorithm,
+   Action2,
+   PayloadType,
+} from "../../types";
 
 export enum IteratingState {
    NONE,
    ITERATING,
+   PAUSED,
    DONE,
 }
 
-export type IListState = {
-   iteratingIndex: number;
-   iterating: IteratingState;
-   startIndex: number;
-   endIndex: number;
+export type IAlgorithmState = {
+   iteratingIndices: Array<number>;
+   iteratingRange: Array<number>;
+   swappingIndices: Array<number>;
+};
+
+export type IAlgoStateKey = keyof IAlgorithmState;
+
+export type IAlgorithmPayload = {
+   type: PayloadType;
+   value: Array<number>;
 };
 
 export type IAppContext = {
    list: IList;
-   listState: IListState;
    algorithm: Algorithm;
+   iteratingState: IteratingState;
    algorithmSpeed: number;
+   algorithmState: IAlgorithmState;
+   algorithmIndex: number;
+   algorithmPayload: IAlgorithmPayload[];
 };
 
 export type IAppContextActions = {
-   updateIteratingIndex: Action1<number>;
+   updateAlgorithmSpeed: Action1<number>;
+   updateAlgorithm: Action1<Algorithm>;
    updateIteratingState: Action1<IteratingState>;
-   reset: Action;
-   setAlgorithm: Action1<Algorithm>;
-   updateStartIndex: Action1<number>;
-   updateEndIndex: Action1<number>;
+   updateAlgorithmPayload: Action1<IAlgorithmPayload[]>;
+   updateAlgorithmState: Action2<IAlgoStateKey, Array<number>>;
+   updateAlgorithmIndex: Action1<number>;
    swapElements: Action2<number, number>;
-   setAlgorithmSpeed: Action1<number>;
+   reset: Action;
 };
 
 export const AppContext = React.createContext<IAppContext>(

@@ -32,43 +32,50 @@ const ButtonCont = styled.div`
 `;
 
 export const Header = () => {
-   const { listState, algorithm } = useAppContext();
-   const {
-      updateIteratingState,
-      reset,
-      setAlgorithm,
-      updateIteratingIndex,
-      setAlgorithmSpeed,
-   } = useAppContextActions();
+   const context = useAppContext();
+   const appActions = useAppContextActions();
+
+   const { updateIteratingState } = appActions;
+   const { iteratingState, algorithm } = context;
 
    const updateAlgo = React.useCallback(
       (val: string) => {
-         setAlgorithm(val as Algorithm);
+         appActions.updateAlgorithm(val as Algorithm);
       },
-      [setAlgorithm]
+      [appActions]
    );
 
    const onChangeSpeed = React.useCallback(
       (_e: Event, v: number | number[]) => {
          const speed: number = v as number;
-         setAlgorithmSpeed(speed);
+         appActions.updateAlgorithmSpeed(speed);
       },
-      [setAlgorithmSpeed]
+      [appActions]
    );
 
    const toggleIteratingState = React.useCallback(() => {
-      if (listState.iterating === IteratingState.NONE) {
+      if (iteratingState === IteratingState.NONE) {
          updateIteratingState(IteratingState.ITERATING);
-         updateIteratingIndex(listState.startIndex);
+         // set the payload for iterating maybe ?
+         return;
       }
-      if (listState.iterating === IteratingState.ITERATING) {
-         updateIteratingState(IteratingState.NONE);
+      if (iteratingState === IteratingState.ITERATING) {
+         updateIteratingState(IteratingState.PAUSED);
+         return;
       }
-   }, [listState, updateIteratingState, updateIteratingIndex]);
+      // iteratingState === IteratingState.PAUSED
+      updateIteratingState(IteratingState.ITERATING);
+   }, [updateIteratingState, iteratingState]);
 
-   const disabled = listState.iterating === IteratingState.DONE;
+   const disabledToggle = iteratingState === IteratingState.DONE;
    const toggleText =
-      listState.iterating === IteratingState.ITERATING ? "Pause" : "Start";
+      iteratingState === IteratingState.NONE
+         ? "Start"
+         : iteratingState === IteratingState.ITERATING
+         ? "Pause"
+         : iteratingState === IteratingState.PAUSED
+         ? "Continue"
+         : "Start";
 
    return (
       <Container>
@@ -97,14 +104,14 @@ export const Header = () => {
                size="medium"
                onClick={toggleIteratingState}
                variant="contained"
-               disabled={disabled}
+               disabled={disabledToggle}
                color="info"
             >
                {toggleText}
             </Button>
             <Button
                size="medium"
-               onClick={reset}
+               onClick={appActions.reset}
                variant="contained"
                color="info"
             >

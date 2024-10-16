@@ -2,100 +2,73 @@ import React from "react";
 import {
    AppContext,
    AppContextActions,
-   IListState,
+   IAlgorithmPayload,
+   IAlgorithmState,
    IteratingState,
 } from "./context";
 import { IAppContext, IAppContextActions } from "./context";
-import { Callback, Callback1, IList, Algorithm, Callback2 } from "../../types";
-import { initList } from "../../Utils";
+import { IList, Algorithm } from "../../types";
+import { initList, swap } from "../../Utils";
+import { AlgorithmPayloadGetter } from "../Algorithms";
 
 interface IProps {
    children: React.ReactElement;
 }
 
-const getInitState = (list: IList): IListState => {
+const getInitAlgoState = (list: IList): IAlgorithmState => {
    return {
-      iteratingIndex: -1,
-      iterating: IteratingState.NONE,
-      startIndex: 0,
-      endIndex: list.length,
+      iteratingIndices: [],
+      iteratingRange: [0, list.length],
+      swappingIndices: [],
    };
 };
 
-const NUM_ELEMENTS = 70;
+const NUM_ELEMENTS = 20;
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
    const [list, setList] = React.useState<IList>(initList(NUM_ELEMENTS));
-   const [listState, setListState] = React.useState<IListState>(
-      getInitState(list)
-   );
    const [algorithm, setAlgorithm] = React.useState<Algorithm>(
       Algorithm.BUBBLE_SORT
    );
    const [algorithmSpeed, setAlgorithmSpeed] = React.useState(0);
+   const [algorithmPayload, setAlgorithmPayload] = React.useState<
+      IAlgorithmPayload[]
+   >([]);
+   const [algorithmState, setAlgorithmState] = React.useState<IAlgorithmState>(
+      getInitAlgoState(list)
+   );
+   const [iteratingState, setIteratingState] = React.useState<IteratingState>(
+      IteratingState.NONE
+   );
+   const [algorithmIndex, setAlgorithmIndex] = React.useState(-1);
 
-   const updateIteratingIndex: Callback1<number> = React.useCallback(
-      (index) => {
-         setListState((prev) => {
+   const updateAlgorithmState: IAppContextActions["updateAlgorithmState"] =
+      React.useCallback((key, value) => {
+         setAlgorithmState((prev) => {
             return {
                ...prev,
-               iteratingIndex: index,
+               [key]: value,
             };
          });
-      },
-      [setListState]
-   );
+      }, []);
 
-   const updateIteratingState: Callback1<IteratingState> = React.useCallback(
-      (state) => {
-         setListState((prev) => {
-            return {
-               ...prev,
-               iterating: state,
-            };
-         });
-      },
-      [setListState]
-   );
-
-   const reset: Callback = React.useCallback(() => {
+   const reset: IAppContextActions["reset"] = React.useCallback(() => {
       const newList = initList(NUM_ELEMENTS);
+      const payloadGetter = AlgorithmPayloadGetter[algorithm];
+      const newPayload = payloadGetter(newList);
       setList(newList);
-      setListState(getInitState(newList));
-   }, [setListState, setList]);
+      setAlgorithmState(getInitAlgoState(newList));
+      setAlgorithmPayload(newPayload);
+      setIteratingState(IteratingState.NONE);
+      setAlgorithmIndex(-1);
+   }, [algorithm]);
 
-   const updateStartIndex: Callback1<number> = React.useCallback(
-      (index) => {
-         setListState((prev) => {
-            return {
-               ...prev,
-               startIndex: index,
-            };
-         });
-      },
-      [setListState]
-   );
-
-   const updateEndIndex: Callback1<number> = React.useCallback(
-      (index) => {
-         setListState((prev) => {
-            return {
-               ...prev,
-               endIndex: index,
-            };
-         });
-      },
-      [setListState]
-   );
-
-   const swapElements: Callback2<number, number> = React.useCallback(
+   const swapElements: IAppContextActions["swapElements"] = React.useCallback(
       (i1, i2) => {
          setList((prev) => {
             const newList = prev.map((el) => ({ ...el }));
-            const t = newList[i1];
-            newList[i1] = newList[i2];
-            newList[i2] = t;
-            return newList.map((el, idx) => ({ ...el, index: idx }));
+            swap(newList, i1, i2);
+            return newList;
          });
       },
       []
@@ -104,33 +77,36 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
    const context: IAppContext = React.useMemo(() => {
       return {
          list,
-         listState,
          algorithm,
          algorithmSpeed,
+         algorithmPayload,
+         algorithmState,
+         algorithmIndex,
+         iteratingState,
       };
-   }, [list, listState, algorithm, algorithmSpeed]);
+   }, [
+      list,
+      algorithm,
+      algorithmSpeed,
+      algorithmPayload,
+      algorithmState,
+      algorithmIndex,
+      iteratingState,
+   ]);
 
    const contextActions: IAppContextActions = React.useMemo(() => {
       return {
-         updateIteratingIndex,
-         updateIteratingState,
-         reset,
-         setAlgorithm,
-         updateStartIndex,
-         updateEndIndex,
+         updateAlgorithm: setAlgorithm,
+         updateIteratingState: setIteratingState,
+         updateAlgorithmPayload: setAlgorithmPayload,
+         updateAlgorithmSpeed: setAlgorithmSpeed,
+         updateAlgorithmIndex: setAlgorithmIndex,
+         updateAlgorithmState,
          swapElements,
-         setAlgorithmSpeed,
+         reset,
       };
-   }, [
-      updateIteratingIndex,
-      updateIteratingState,
-      reset,
-      setAlgorithm,
-      updateStartIndex,
-      updateEndIndex,
-      swapElements,
-      setAlgorithmSpeed,
-   ]);
+   }, [updateAlgorithmState, swapElements, reset]);
+   console.log({ context });
 
    return (
       <AppContext.Provider value={context}>

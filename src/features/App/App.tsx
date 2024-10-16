@@ -4,7 +4,7 @@ import { List } from "../List";
 import { Flex } from "../../components";
 import { AppContextProvider } from "./AppContextProvider";
 import { Header } from "../Header";
-import { ListAlgorithm } from "../ListAlgorithm";
+import { AlgorithmController } from "../Algorithms";
 
 const AppContainer = styled(Flex)`
    min-height: 100vh;
@@ -21,7 +21,7 @@ export const App = () => {
          <AppContainer>
             <Header />
             <List />
-            <ListAlgorithm />
+            <AlgorithmController />
          </AppContainer>
       </AppContextProvider>
    );

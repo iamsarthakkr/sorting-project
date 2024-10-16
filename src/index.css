@@ -3,9 +3,10 @@
    --bg-light-2: #e0e0e0;
    --text-dark-1: #142d4c;
 
-   --cell-color-visited: #001f3f;
-   --cell-color: #3a6d8c;
+   --cell-color-active: #3a6d8c;
+   --cell-color-inactive: #001f3f;
    --cell-color-iterating: #ead8b1;
+   --cell-color-swapping: brown;
 }
 
 *,
