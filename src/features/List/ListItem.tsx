@@ -8,7 +8,6 @@ const Item = styled.div<{
    $leftBorder: boolean;
    $rightBorder: boolean;
 }>`
-   min-width: 10px;
    width: 10px;
    height: ${(props) => `${props.height}px`};
    border-top: 1px solid black;

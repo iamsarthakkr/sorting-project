@@ -23,10 +23,11 @@ export const getInitAlgoState = (list: IList): IAlgorithmState => {
    };
 };
 
-const NUM_ELEMENTS = 10;
+const NUM_ELEMENTS = 200;
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
-   const [list, setList] = React.useState<IList>(initList(NUM_ELEMENTS));
+   const [listSize, setListSize] = React.useState(NUM_ELEMENTS);
+   const [list, setList] = React.useState<IList>(initList(listSize));
    const [algorithm, setAlgorithm] = React.useState<Algorithm>(
       Algorithm.BUBBLE_SORT
    );
@@ -53,7 +54,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       }, []);
 
    const reset: IAppContextActions["reset"] = React.useCallback(() => {
-      const newList = initList(NUM_ELEMENTS);
+      const newList = initList(listSize);
       const payloadGetter = AlgorithmPayloadGetter[algorithm];
       const newPayload = payloadGetter(newList);
       setList(newList);
@@ -61,7 +62,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
       setAlgorithmPayload(newPayload);
       setIteratingState(IteratingState.NONE);
       setAlgorithmIndex(-1);
-   }, [algorithm]);
+   }, [listSize, algorithm]);
 
    const swapElements: IAppContextActions["swapElements"] = React.useCallback(
       (i1, i2) => {
@@ -76,6 +77,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
 
    const context: IAppContext = React.useMemo(() => {
       return {
+         listSize,
          list,
          algorithm,
          algorithmSpeed,
@@ -85,6 +87,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
          iteratingState,
       };
    }, [
+      listSize,
       list,
       algorithm,
       algorithmSpeed,
@@ -96,6 +99,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
 
    const contextActions: IAppContextActions = React.useMemo(() => {
       return {
+         updateListSize: setListSize,
          updateAlgorithm: setAlgorithm,
          updateIteratingState: setIteratingState,
          updateAlgorithmPayload: setAlgorithmPayload,

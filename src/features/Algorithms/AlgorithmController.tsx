@@ -13,6 +13,7 @@ export const AlgorithmController = () => {
    const timerRef = React.useRef<NodeJS.Timer | null>();
 
    const {
+      listSize,
       algorithm,
       algorithmPayload,
       iteratingState,
@@ -25,11 +26,18 @@ export const AlgorithmController = () => {
       updateIteratingState,
       updateAlgorithmState,
       swapElements,
+      reset,
    } = actions;
 
    React.useEffect(() => {
       contextRef.current = context;
    }, [context]);
+
+   // update list when size changes
+
+   React.useEffect(() => {
+      reset();
+   }, [listSize, reset]);
 
    // set the payload of algorithm
    React.useEffect(() => {

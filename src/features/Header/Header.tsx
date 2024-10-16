@@ -22,8 +22,13 @@ const SelectCont = styled.div`
    width: 150px;
 `;
 
+const ControlsCont = styled(Flex)`
+   flex-direction: row;
+`;
+
 const SliderCont = styled.div`
    width: 120px;
+   margin: 0 40px;
 `;
 
 const ButtonCont = styled.div`
@@ -35,14 +40,22 @@ export const Header = () => {
    const context = useAppContext();
    const appActions = useAppContextActions();
 
-   const { updateIteratingState } = appActions;
-   const { iteratingState, algorithm } = context;
+   const { updateIteratingState, updateListSize } = appActions;
+   const { iteratingState, algorithm, listSize } = context;
 
    const updateAlgo = React.useCallback(
       (val: string) => {
          appActions.updateAlgorithm(val as Algorithm);
       },
       [appActions]
+   );
+
+   const onChangeListSize = React.useCallback(
+      (_e: Event, v: number | number[]) => {
+         const size = v as number;
+         updateListSize(size);
+      },
+      [updateListSize]
    );
 
    const onChangeSpeed = React.useCallback(
@@ -68,6 +81,9 @@ export const Header = () => {
    }, [updateIteratingState, iteratingState]);
 
    const disabledToggle = iteratingState === IteratingState.DONE;
+   const disableListSizeSlider =
+      iteratingState === IteratingState.ITERATING ||
+      iteratingState === IteratingState.PAUSED;
    const toggleText =
       iteratingState === IteratingState.NONE
          ? "Start"
@@ -86,19 +102,35 @@ export const Header = () => {
                onChange={updateAlgo}
             />
          </SelectCont>
-         <SliderCont>
-            <Center>Speed</Center>
-            <Slider
-               size="medium"
-               defaultValue={0}
-               onChange={onChangeSpeed}
-               valueLabelDisplay="auto"
-               step={20}
-               marks
-               min={0}
-               max={200}
-            />
-         </SliderCont>
+         <ControlsCont>
+            <SliderCont>
+               <Center>List Size</Center>
+               <Slider
+                  size="medium"
+                  defaultValue={listSize}
+                  onChange={onChangeListSize}
+                  valueLabelDisplay="auto"
+                  disabled={disableListSizeSlider}
+                  step={10}
+                  marks
+                  min={5}
+                  max={200}
+               />
+            </SliderCont>
+            <SliderCont>
+               <Center>Speed</Center>
+               <Slider
+                  size="medium"
+                  defaultValue={0}
+                  onChange={onChangeSpeed}
+                  valueLabelDisplay="auto"
+                  step={20}
+                  marks
+                  min={0}
+                  max={200}
+               />
+            </SliderCont>
+         </ControlsCont>
          <ButtonCont>
             <Button
                size="medium"
