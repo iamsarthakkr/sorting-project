@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/iamsarthakkr/sorting-project/static/css/main.1e6fc7c1.css",
-    "main.js": "/iamsarthakkr/sorting-project/static/js/main.da704442.js",
-    "index.html": "/iamsarthakkr/sorting-project/index.html",
-    "main.1e6fc7c1.css.map": "/iamsarthakkr/sorting-project/static/css/main.1e6fc7c1.css.map",
-    "main.da704442.js.map": "/iamsarthakkr/sorting-project/static/js/main.da704442.js.map"
+    "main.css": "/sorting-project/static/css/main.1e6fc7c1.css",
+    "main.js": "/sorting-project/static/js/main.d84e3a54.js",
+    "index.html": "/sorting-project/index.html",
+    "main.1e6fc7c1.css.map": "/sorting-project/static/css/main.1e6fc7c1.css.map",
+    "main.d84e3a54.js.map": "/sorting-project/static/js/main.d84e3a54.js.map"
   },
   "entrypoints": [
     "static/css/main.1e6fc7c1.css",
-    "static/js/main.da704442.js"
+    "static/js/main.d84e3a54.js"
   ]
 }
