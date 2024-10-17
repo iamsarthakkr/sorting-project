@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { useAppContext, useAppContextActions } from "../App/useAppContext";
+import { useAppContext } from "../App/useAppContext";
 import { ListItem } from "./ListItem";
 
 const Container = styled.div`

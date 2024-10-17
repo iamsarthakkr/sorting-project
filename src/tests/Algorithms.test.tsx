@@ -1,10 +1,10 @@
 import { AlgorithmPayloadGetter } from "../features/Algorithms";
 import { Algorithm, PayloadType } from "../types";
-import { initList, swap } from "../Utils";
+import { initList, random, swap } from "../Utils";
 
 describe("Algorithms", () => {
-   const sortTest = (algo: Algorithm) => {
-      const arr = initList(100);
+   const sortTest = (algo: Algorithm, size: number) => {
+      const arr = initList(size);
 
       const numsSorted = arr.map((el) => el.value);
       numsSorted.sort((a, b) => {
@@ -23,9 +23,18 @@ describe("Algorithms", () => {
       expect(numsSorted).toEqual(nums);
    };
    it("correctly sorts array using bubble sort", () => {
-      sortTest(Algorithm.BUBBLE_SORT);
+      for (let test = 0; test < 100; test++) {
+         sortTest(Algorithm.BUBBLE_SORT, random(100, 500));
+      }
    });
    it("correctly sorts array using insertions sort", () => {
-      sortTest(Algorithm.INSERTION_SORT);
+      for (let test = 0; test < 100; test++) {
+         sortTest(Algorithm.INSERTION_SORT, random(100, 500));
+      }
+   });
+   it("correctly sorts array using quick sort", () => {
+      for (let test = 0; test < 100; test++) {
+         sortTest(Algorithm.QUICK_SORT, random(100, 500));
+      }
    });
 });
