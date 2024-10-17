@@ -58,24 +58,36 @@ export const AlgorithmController = () => {
       if (algorithmIndex < 0 || algorithmIndex >= algorithmPayload.length) {
          return;
       }
+      const interval =
+         algorithmIndex > 0 &&
+         (algorithmPayload[algorithmIndex - 1].type ===
+            PayloadType.SWAP_BEGIN ||
+            algorithmPayload[algorithmIndex - 1].type === PayloadType.SWAP_END)
+            ? algorithmSpeed === 0
+               ? 200
+               : 2 * algorithmSpeed
+            : algorithmSpeed;
       timerRef.current = setTimeout(() => {
          const { type, value } = algorithmPayload[algorithmIndex];
          switch (type) {
-            case PayloadType.UPDATE_RANGE: {
+            case PayloadType.RANGE_UPDATE: {
                updateAlgorithmState("iteratingRange", value);
                updateAlgorithmState("iteratingIndices", []);
                updateAlgorithmState("swappingIndices", []);
                break;
             }
-            case PayloadType.UPDATE_ITERATION: {
+            case PayloadType.ITERATION: {
                updateAlgorithmState("iteratingIndices", value);
                updateAlgorithmState("swappingIndices", []);
                break;
             }
-            case PayloadType.UPDATE_SWAP: {
+            case PayloadType.SWAP_BEGIN: {
                // swap
                updateAlgorithmState("swappingIndices", value);
                updateAlgorithmState("iteratingIndices", []);
+               break;
+            }
+            case PayloadType.SWAP_END: {
                swapElements(value[0], value[1]);
                break;
             }
@@ -84,7 +96,7 @@ export const AlgorithmController = () => {
             }
          }
          updateAlgorithmIndex(algorithmIndex + 1);
-      }, algorithmSpeed);
+      }, interval);
    }, [
       iteratingState,
       algorithmSpeed,

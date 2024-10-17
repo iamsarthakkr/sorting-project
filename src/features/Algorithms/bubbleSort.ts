@@ -10,11 +10,11 @@ export const bubbleSort = (list: IList): IAlgorithmPayload[] => {
    const operations: IAlgorithmPayload[] = [];
    for (let end = toSort.length; end >= 0; end--) {
       // update iterating range
-      operations.push({ type: PayloadType.UPDATE_RANGE, value: [0, end] });
+      operations.push({ type: PayloadType.RANGE_UPDATE, value: [0, end] });
       for (let iteratingIndex = 0; iteratingIndex < end; iteratingIndex++) {
          // update iterating index
          operations.push({
-            type: PayloadType.UPDATE_ITERATION,
+            type: PayloadType.ITERATION,
             value: [iteratingIndex],
          });
          if (
@@ -23,7 +23,7 @@ export const bubbleSort = (list: IList): IAlgorithmPayload[] => {
          ) {
             // swap operation
             operations.push({
-               type: PayloadType.UPDATE_SWAP,
+               type: PayloadType.SWAP_BEGIN,
                value: [
                   toSort[iteratingIndex].index,
                   toSort[iteratingIndex + 1].index,
@@ -34,9 +34,16 @@ export const bubbleSort = (list: IList): IAlgorithmPayload[] => {
                toSort[iteratingIndex].index,
                toSort[iteratingIndex + 1].index
             );
+            operations.push({
+               type: PayloadType.SWAP_END,
+               value: [
+                  toSort[iteratingIndex].index,
+                  toSort[iteratingIndex + 1].index,
+               ],
+            });
          }
       }
    }
-   operations.push({ type: PayloadType.UPDATE_ITERATION, value: [-1] });
+   operations.push({ type: PayloadType.ITERATION, value: [-1] });
    return operations;
 };

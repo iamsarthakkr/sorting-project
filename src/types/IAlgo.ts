@@ -11,7 +11,8 @@ export enum Algorithm {
 }
 
 export enum PayloadType {
-   UPDATE_RANGE,
-   UPDATE_ITERATION,
-   UPDATE_SWAP,
+   RANGE_UPDATE,
+   ITERATION,
+   SWAP_BEGIN,
+   SWAP_END,
 }

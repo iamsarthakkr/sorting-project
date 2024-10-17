@@ -33,7 +33,7 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
    const [algorithmSpeed, setAlgorithmSpeed] = React.useState(0);
    const [algorithmPayload, setAlgorithmPayload] = React.useState<
       IAlgorithmPayload[]
-   >([]);
+   >(AlgorithmPayloadGetter[algorithm](list));
    const [algorithmState, setAlgorithmState] = React.useState<IAlgorithmState>(
       getInitAlgoState(list)
    );

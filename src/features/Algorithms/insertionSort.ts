@@ -8,11 +8,11 @@ export const insertionSort: IPayloadGetter = (list) => {
    for (let start = 0; start < list.length; start++) {
       // update range
       operations.push({
-         type: PayloadType.UPDATE_RANGE,
+         type: PayloadType.RANGE_UPDATE,
          value: [start, list.length],
       });
       operations.push({
-         type: PayloadType.UPDATE_ITERATION,
+         type: PayloadType.ITERATION,
          value: [toSort[start].index],
       });
       let currIndex = start;
@@ -21,15 +21,19 @@ export const insertionSort: IPayloadGetter = (list) => {
          toSort[currIndex].value < toSort[currIndex - 1].value
       ) {
          operations.push({
-            type: PayloadType.UPDATE_SWAP,
+            type: PayloadType.SWAP_BEGIN,
             value: [toSort[currIndex - 1].index, toSort[currIndex].index],
          });
          swap(toSort, toSort[currIndex - 1].index, toSort[currIndex].index);
+         operations.push({
+            type: PayloadType.SWAP_END,
+            value: [toSort[currIndex - 1].index, toSort[currIndex].index],
+         });
          currIndex--;
       }
    }
    operations.push({
-      type: PayloadType.UPDATE_RANGE,
+      type: PayloadType.RANGE_UPDATE,
       value: [toSort.length, toSort.length],
    });
    return operations;

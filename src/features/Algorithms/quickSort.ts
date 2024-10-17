@@ -10,7 +10,7 @@ export const quickSort: IPayloadGetter = (list) => {
       if (start >= end) {
          return;
       }
-      operations.push({ type: PayloadType.UPDATE_RANGE, value: [start, end] });
+      operations.push({ type: PayloadType.RANGE_UPDATE, value: [start, end] });
 
       const pivot = random(start, end - 1);
       const pivot_val = toSort[pivot].value;
@@ -18,13 +18,17 @@ export const quickSort: IPayloadGetter = (list) => {
       let l = start;
       for (let iteratingIndex = start; iteratingIndex < end; iteratingIndex++) {
          operations.push({
-            type: PayloadType.UPDATE_ITERATION,
+            type: PayloadType.ITERATION,
             value: [iteratingIndex, l],
          });
          if (toSort[iteratingIndex].value < pivot_val) {
+            operations.push({
+               type: PayloadType.SWAP_BEGIN,
+               value: [toSort[iteratingIndex].index, toSort[l].index],
+            });
             swap(toSort, toSort[iteratingIndex].index, toSort[l].index);
             operations.push({
-               type: PayloadType.UPDATE_SWAP,
+               type: PayloadType.SWAP_END,
                value: [toSort[iteratingIndex].index, toSort[l].index],
             });
             l++;
@@ -38,7 +42,7 @@ export const quickSort: IPayloadGetter = (list) => {
 
    sort_rec(0, toSort.length);
    operations.push({
-      type: PayloadType.UPDATE_RANGE,
+      type: PayloadType.RANGE_UPDATE,
       value: [toSort.length, toSort.length],
    });
    return operations;

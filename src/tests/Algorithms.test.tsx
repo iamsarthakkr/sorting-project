@@ -14,7 +14,7 @@ describe("Algorithms", () => {
       const operations = payloadGetter(arr);
 
       for (const op of operations) {
-         if (op.type === PayloadType.UPDATE_SWAP) {
+         if (op.type === PayloadType.SWAP_BEGIN) {
             const [i1, i2] = op.value;
             swap(arr, i1, i2);
          }
