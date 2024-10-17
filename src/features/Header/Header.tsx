@@ -145,9 +145,9 @@ export const Header = () => {
                size="medium"
                onClick={appActions.reset}
                variant="contained"
-               color="info"
+               color="success"
             >
-               Reset
+               Generate
             </Button>
          </ButtonCont>
       </Container>
