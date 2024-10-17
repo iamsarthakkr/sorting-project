@@ -26,8 +26,7 @@ export const getInitAlgoState = (list: IList): IAlgorithmState => {
 const NUM_ELEMENTS = 50;
 
 export const AppContextProvider: React.FC<IProps> = (props) => {
-   const [listSize, setListSize] = React.useState(NUM_ELEMENTS);
-   const [list, setList] = React.useState<IList>(initList(listSize));
+   const [list, setList] = React.useState<IList>(initList(NUM_ELEMENTS));
    const [algorithm, setAlgorithm] = React.useState<Algorithm>(
       Algorithm.BUBBLE_SORT
    );
@@ -53,16 +52,52 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
          });
       }, []);
 
-   const reset: IAppContextActions["reset"] = React.useCallback(() => {
-      const newList = initList(listSize);
-      const payloadGetter = AlgorithmPayloadGetter[algorithm];
+   const updateList = React.useCallback((newList: IList, algo: Algorithm) => {
+      const payloadGetter = AlgorithmPayloadGetter[algo];
       const newPayload = payloadGetter(newList);
-      setList(newList);
-      setAlgorithmState(getInitAlgoState(newList));
       setAlgorithmPayload(newPayload);
+      setAlgorithmState(getInitAlgoState(newList));
       setIteratingState(IteratingState.NONE);
       setAlgorithmIndex(-1);
-   }, [listSize, algorithm]);
+   }, []);
+
+   const updateAlgorithm: IAppContextActions["updateAlgorithm"] =
+      React.useCallback(
+         (algo) => {
+            updateList(list, algo);
+            setAlgorithm(algo);
+         },
+         [list, updateList]
+      );
+
+   const reset: IAppContextActions["reset"] = React.useCallback(() => {
+      const newList = initList(list.length);
+      updateList(newList, algorithm);
+      setList(newList);
+   }, [list, algorithm, updateList]);
+
+   const updateListSize: IAppContextActions["updateListSize"] =
+      React.useCallback(
+         (newSize) => {
+            const listSize = list.length;
+            if (newSize === listSize) {
+               return;
+            }
+            const newList = list.map((el) => ({ ...el }));
+            while (newList.length > newSize) {
+               newList.pop();
+            }
+            const extra = Math.max(0, newSize - listSize);
+            const extraList = initList(extra);
+            newList.push(...extraList);
+            newList.forEach((el, id) => {
+               newList[id].index = id;
+            });
+            updateList(newList, algorithm);
+            setList(newList);
+         },
+         [list, updateList, algorithm]
+      );
 
    const swapElements: IAppContextActions["swapElements"] = React.useCallback(
       (i1, i2) => {
@@ -77,7 +112,6 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
 
    const context: IAppContext = React.useMemo(() => {
       return {
-         listSize,
          list,
          algorithm,
          algorithmSpeed,
@@ -87,7 +121,6 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
          iteratingState,
       };
    }, [
-      listSize,
       list,
       algorithm,
       algorithmSpeed,
@@ -99,17 +132,23 @@ export const AppContextProvider: React.FC<IProps> = (props) => {
 
    const contextActions: IAppContextActions = React.useMemo(() => {
       return {
-         updateListSize: setListSize,
-         updateAlgorithm: setAlgorithm,
+         updateListSize,
          updateIteratingState: setIteratingState,
          updateAlgorithmPayload: setAlgorithmPayload,
          updateAlgorithmSpeed: setAlgorithmSpeed,
          updateAlgorithmIndex: setAlgorithmIndex,
+         updateAlgorithm,
          updateAlgorithmState,
          swapElements,
          reset,
       };
-   }, [updateAlgorithmState, swapElements, reset]);
+   }, [
+      updateAlgorithm,
+      updateAlgorithmState,
+      swapElements,
+      reset,
+      updateListSize,
+   ]);
    console.log({ context });
 
    return (

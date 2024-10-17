@@ -2,7 +2,6 @@ import React from "react";
 import { useAppContext, useAppContextActions } from "../App/useAppContext";
 import { IteratingState } from "../App/context";
 import { PayloadType } from "../../types";
-import { AlgorithmPayloadGetter } from "./algorithmPayloadGetters";
 
 export const AlgorithmController = () => {
    const context = useAppContext();
@@ -12,39 +11,18 @@ export const AlgorithmController = () => {
 
    const timerRef = React.useRef<NodeJS.Timer | null>();
 
+   const { algorithmPayload, iteratingState, algorithmSpeed, algorithmIndex } =
+      context;
    const {
-      listSize,
-      algorithm,
-      algorithmPayload,
-      iteratingState,
-      algorithmSpeed,
-      algorithmIndex,
-   } = context;
-   const {
-      updateAlgorithmPayload,
       updateAlgorithmIndex,
       updateIteratingState,
       updateAlgorithmState,
       swapElements,
-      reset,
    } = actions;
 
    React.useEffect(() => {
       contextRef.current = context;
    }, [context]);
-
-   // update list when size changes
-
-   React.useEffect(() => {
-      reset();
-   }, [listSize, reset]);
-
-   // set the payload of algorithm
-   React.useEffect(() => {
-      const payloadGetter = AlgorithmPayloadGetter[algorithm];
-      const newPayload = payloadGetter(contextRef.current.list);
-      updateAlgorithmPayload(newPayload);
-   }, [updateAlgorithmPayload, algorithm]);
 
    // check for start or end of iteration
    React.useEffect(() => {

@@ -29,7 +29,6 @@ export type IAlgorithmPayload = {
 };
 
 export type IAppContext = {
-   listSize: number;
    list: IList;
    algorithm: Algorithm;
    iteratingState: IteratingState;

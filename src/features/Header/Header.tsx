@@ -41,7 +41,7 @@ export const Header = () => {
    const appActions = useAppContextActions();
 
    const { updateIteratingState, updateListSize } = appActions;
-   const { iteratingState, algorithm, listSize } = context;
+   const { iteratingState, algorithm, list } = context;
 
    const updateAlgo = React.useCallback(
       (val: string) => {
@@ -107,7 +107,7 @@ export const Header = () => {
                <Center>List Size</Center>
                <Slider
                   size="medium"
-                  defaultValue={listSize}
+                  value={list.length}
                   onChange={onChangeListSize}
                   valueLabelDisplay="auto"
                   disabled={disableListSizeSlider}
