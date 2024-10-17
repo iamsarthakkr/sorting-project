@@ -8,7 +8,7 @@ export const random = (min: number, max: number): number => {
 
 export const randomArray = (len: number): number[] => {
    let ret: number[] = [];
-   for (let i = 0; i < len; i++) ret.push(random(50, 200));
+   for (let i = 0; i < len; i++) ret.push(random(50, 350));
    return ret;
 };
 

@@ -7,7 +7,7 @@ const Container = styled.div`
    width: 90%;
    background-color: var(--bg-light-2);
    border: 1px solid var(--text-dark-1);
-   height: 40vh;
+   height: 50vh;
    box-sizing: content-box;
    display: flex;
    align-items: flex-end;
