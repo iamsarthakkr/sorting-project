@@ -64,7 +64,7 @@ export const AlgorithmController = () => {
             PayloadType.SWAP_BEGIN ||
             algorithmPayload[algorithmIndex - 1].type === PayloadType.SWAP_END)
             ? algorithmSpeed === 0
-               ? 200
+               ? 100
                : 2 * algorithmSpeed
             : algorithmSpeed;
       timerRef.current = setTimeout(() => {
